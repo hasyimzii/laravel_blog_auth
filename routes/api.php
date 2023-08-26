@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Blog
+// Route::prefix('blog')->group(function () {
+//     Route::get('/', [BlogController::class, 'index'])->name('index');
+//     Route::get('/latest', [BlogController::class, 'latest'])->name('latest');
+//     Route::get('/search', [BlogController::class, 'search'])->name('search');
+// });
