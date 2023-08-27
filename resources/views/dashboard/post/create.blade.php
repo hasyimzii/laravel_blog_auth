@@ -1,17 +1,25 @@
-@extends('admin.layouts.app')
+@extends('dashboard.layouts.app')
 
-@section('title', 'Tambah Blog')
+@section('title', 'Create Post')
 @section('content')
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('dashboard.post.index') }}">Posts List</a></li>
+    <li class="breadcrumb-item" aria-current="page">Create Post</li>
+  </ol>
+</nav>
+
 <div class="row page-titles mx-0" style="background: #343957;">
-    <div class="col-sm-6 mt-1 p-md-0">
+    <div class="col-sm-6 my-auto p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Tambah Blog</h4>
+            <h4 class="text-white">Create Post</h4>
         </div>
     </div>
-    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('admin.blog.index') }}">
+    <div class="col-sm-6 my-auto p-md-0 justify-content-sm-end d-flex">
+        <a href="{{ route('dashboard.post.index') }}">
             <button type="button" class="btn btn-light">
-                <i class="fas fa-arrow-circle-left mr-1"></i> Kembali
+                <i class="fas fa-arrow-circle-left mr-1"></i> Back
             </button>
         </a>
     </div>
@@ -23,54 +31,48 @@
         <div class="card">
             <div class="card-body">
                 <div class="basic-form col-12">
-                    <form action="{{ route('admin.blog.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('dashboard.post.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
-                            <label>Kategori Blog (Pilih satu):</label>
-                            <select class="form-control" id="sel1" name="category_id">
-                                @forelse($category as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                @empty
-                                @endforelse
-                            </select>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-sm-12">
-                                <label>Judul Blog</label>
-                                <input type="text" class="form-control" name="name" placeholder="Tulis judul blog..."
-                                    required>
-                            </div>
-                        </div><br>
-                        <div class="form-row">
-                            <div class="col-sm-12">
-                                <label>Form Url Blog (Opsional)</label>
-                                <input type="text" class="form-control" name="form_url" placeholder="Tulis form url...">
-                            </div>
-                        </div><br>
-                        <div class="form-group">
-                            <label >Deskripsi Blog</label>
-                            <textarea id="summernote" name="description"></textarea>
-                        </div>
+                        <!-- {{--
                         <div class="form-group">
                             <label for="foto">Gambar Blog (Pastikan resolusi 1000x1000 px)</label>
                             <input type="file" class="form-control-file py-1" id="foto" name="image">
                             <i>ukuran maksimal 4MB</i>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <i class="fas fa-plus-circle mr-1"></i> Tambah Data</button>
+                        </div> 
+                        --}} -->
+                        <div class="form-row mb-3">
+                            <div class="col-sm-12">
+                                <label>Post Title</label>
+                                <input type="text" class="form-control" name="title" placeholder="Insert post title..." required>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label >Post Content</label>
+                            <textarea id="summernote" name="content"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Post Status (Choose one):</label>
+                            <select class="form-control" id="sel1" name="status">
+                                <!-- {{--
+                                @forelse($category as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @empty
+                                @endforelse
+                                --}} -->
+                                <option value="draft">Save to draft</option>
+                                <option value="published">Publish now</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">
+                            <i class="fas fa-plus-circle mr-1"></i> Create post
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script>
-    $('#summernote').summernote({
-      placeholder: 'Deskripsi',
-      tabsize: 2,
-      height: 100
-    });
-  </script>
 @endsection
 
 @push('style')
@@ -81,13 +83,16 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#editor').summernote({
+        $('#summernote').summernote({
+            placeholder: 'Content',
+            tabsize: 2,
+            height: 100,
             toolbar: [
                 // [groupName, [list of button]]
                 ['tools', ['undo', 'redo']],
                 ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript']],
-                ['font', ['style', 'fontname', 'fontsize']],
-                ['align', ['paragraph', 'height']],
+                ['font', ['style', 'fontsize']],
+                ['align', ['paragraph']],
                 ['list', ['ul', 'ol']],
                 ['insert', ['link', 'table', 'hr']],
                 ['misc', ['help']],

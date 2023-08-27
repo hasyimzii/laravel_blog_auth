@@ -5,7 +5,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
-    <li class="breadcrumb-item" aria-current="page">Posts</li>
+    <li class="breadcrumb-item" aria-current="page">Posts List</li>
   </ol>
 </nav>
 
@@ -15,9 +15,9 @@
             <h4 class="text-white">Posts List</h4>
         </div>
     </div>
-    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+    <div class="col-sm-6 my-auto p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
         <a href="{{ route('dashboard.post.create') }}">
-            <button type="button" class="btn btn-primary">
+            <button type="button" class="btn btn-success">
                 <i class="fas fa-plus-circle mr-1"></i> Create Post
             </button>
         </a>
@@ -51,7 +51,11 @@
                                     </td>
                                     <td>{{ ($item->status) ? 'Dibuka' : 'Ditutup' }}</td>
                                     --}} -->
-                                    <td>{{ \Carbon\Carbon::parse($item->published_date)->isoFormat('ddd, DD MMM YYYY') }}</td>
+                                    @if($item->status == 'published')
+                                        <td>{{ \Carbon\Carbon::parse($item->published_date)->isoFormat('ddd, DD MMM YYYY') }}</td>
+                                    @else
+                                        <td>Not published</td>
+                                    @endif
                                     <td>{{ $item->user->name }}</td>
                                     <td>{{ $item->title }}</td>
                                     @if($item->status == 'published')
@@ -62,15 +66,13 @@
                                         <td><span class="badge badge-secondary">Archived</span></td>
                                     @endif
                                     <td>
-                                        <a href="{{ route('dashboard.post.show', $item->id) }}">
-                                            <button type="button" class="btn btn-info">
+                                        <a href="{{ route('dashboard.post.show', $item->id) }}"
+                                            class="btn btn-info">
                                                 <i class="fa fa-eye text-white"></i>
-                                            </button>
                                         </a>
-                                        <a href="{{ route('dashboard.post.edit', $item->id) }}">
-                                            <button type="button" class="btn btn-warning">
+                                        <a href="{{ route('dashboard.post.edit', $item->id) }}"
+                                            class="btn btn-warning">
                                                 <i class="fa fa-pencil text-white"></i>
-                                            </button>
                                         </a>
                                         <button class="btn btn-danger" data-toggle="modal" data-target="#confirmation">
                                             <i class="fa fa-trash"></i>

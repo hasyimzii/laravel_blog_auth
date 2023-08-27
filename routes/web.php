@@ -38,9 +38,9 @@ Route::middleware(CustomAuth::class)->prefix('dashboard')->name('dashboard.')->g
     // Post
     Route::prefix('post')->name('post.')->group(function () {
         Route::get('/', [PostController::class, 'index'])->name('index');
+        Route::get('{id}/show', [PostController::class, 'show'])->name('show');
         Route::get('/create', [PostController::class, 'create'])->name('create');
         Route::post('/create', [PostController::class, 'store'])->name('store');
-        Route::get('{id}/show', [PostController::class, 'show'])->name('show');
         Route::get('{id}/edit', [PostController::class, 'edit'])->name('edit');
         Route::post('{id}/edit', [PostController::class, 'update'])->name('update');
         Route::post('{id}/delete', [PostController::class, 'delete'])->name('delete');

@@ -1,29 +1,25 @@
-@extends('admin.layouts.app')
+@extends('dashboard.layouts.app')
 
 @section('title', 'Edit Blog')
 @section('content')
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('dashboard.post.index') }}">Posts List</a></li>
+    <li class="breadcrumb-item" aria-current="page">Edit Post</li>
+  </ol>
+</nav>
+
 <div class="row page-titles mx-0" style="background: #343957;">
-    <div class="col-sm-6 mt-1 p-md-0">
+    <div class="col-sm-6 my-auto p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Edit Blog</h4>
+            <h4 class="text-white">Edit Post</h4>
         </div>
     </div>
-    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('admin.blog.toogle', $blog->id) }}">
-            @if ($blog->active)
-                <button type="button" class="btn btn-danger">
-                    <i class="fas fa-times-circle mr-1"></i> Tutup Form
-                </button>
-            @else
-                <button type="button" class="btn btn-success text-white">
-                    <i class="fas fa-check-circle mr-1 text-white"></i> Buka Form
-                </button>
-            @endif
-        </a>
-        <span class="mr-3"></span>
-        <a href="{{ route('admin.blog.index') }}">
+    <div class="col-sm-6 my-auto p-md-0 justify-content-sm-end d-flex">
+        <a href="{{ route('dashboard.post.index') }}">
             <button type="button" class="btn btn-light">
-                <i class="fas fa-arrow-circle-left mr-1"></i> Kembali
+                <i class="fas fa-arrow-circle-left mr-1"></i> Back
             </button>
         </a>
     </div>
@@ -35,38 +31,10 @@
         <div class="card">
             <div class="card-body">
                 <div class="basic-form col-12">
-                    <form action="{{ route('admin.blog.update', $blog->id) }}" method="post"
+                    <form action="{{ route('dashboard.post.update', $post->id) }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
-                            <label>Kategori Blog (Pilih satu):</label>
-                            <select class="form-control" id="sel1" name="category_id">
-                                @forelse($category as $item)
-                                    <option value="{{ $item->id }}"
-                                        {{ ($item->id == $blog->category->id) ? 'selected' :'' }}>
-                                        {{ $item->name }}</option>
-                                @empty
-                                @endforelse
-                            </select>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-sm-12">
-                                <label>Judul Blog</label>
-                                <input type="text" class="form-control" name="name" placeholder="Tulis judul blog..."
-                                    value="{{ $blog->name }}" required>
-                            </div>
-                        </div><br>
-                        <div class="form-row">
-                            <div class="col-sm-12">
-                                <label>Form Url Blog (Opsional)</label>
-                                <input type="text" class="form-control" name="form_url" placeholder="Tulis form url..."
-                                    value="{{ $blog->form_url }}">
-                            </div>
-                        </div><br>
-                        <div class="form-group">
-                            <label>Deskripsi Blog</label>
-                            <textarea id="summernote" name="description">{!! $blog->description !!}</textarea>
-                        </div>
+                        <!-- {{--
                         <div class="form-group">
                             <label for="foto">Gambar Blog (Pastikan resolusi 1000x1000 px)</label><br>
                             <img class="pb-2" width="150"
@@ -76,22 +44,42 @@
                             <input type="file" class="form-control-file py-1" id="foto" name="image">
                             <i>ukuran maksimal 4MB</i>
                         </div>
+                        --}} -->
+                        <div class="form-row mb-3">
+                            <div class="col-sm-12">
+                                <label>Post Title</label>
+                                <input type="text" class="form-control" name="title" placeholder="Insert post title..." value="{{ $post->title }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label >Post Content</label>
+                            <textarea id="summernote" name="content">{!! $post->content !!}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Post Status (Choose one):</label>
+                            <select class="form-control" id="sel1" name="status">
+                                <!-- {{--
+                                @forelse($category as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @empty
+                                @endforelse
+                                --}} -->
+                                <option value="draft" {{ ($post->status == 'draft') ? 'selected' : '' }}>Save to draft</option>
+                                <option value="published" {{ ($post->status == 'published') ? 'selected' : '' }}>Publish now</option>
+                                <option value="archived" {{ ($post->status == 'archived') ? 'selected' : '' }}>Archive post</option>
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-warning btn-block text-white">
-                            <i class="fa fa-pencil mr-1"></i> Edit Data</button>
+                            <i class="fa fa-pencil mr-1"></i> Update Post
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script>
-    $('#summernote').summernote({
-      placeholder: 'Deskripsi',
-      tabsize: 2,
-      height: 100
-    });
-  </script>
 @endsection
+
 
 @push('style')
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
@@ -101,13 +89,16 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#editor').summernote({
+        $('#summernote').summernote({
+            placeholder: 'Content',
+            tabsize: 2,
+            height: 100,
             toolbar: [
                 // [groupName, [list of button]]
                 ['tools', ['undo', 'redo']],
                 ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript']],
-                ['font', ['style', 'fontname', 'fontsize']],
-                ['align', ['paragraph', 'height']],
+                ['font', ['style', 'fontsize']],
+                ['align', ['paragraph']],
                 ['list', ['ul', 'ol']],
                 ['insert', ['link', 'table', 'hr']],
                 ['misc', ['help']],

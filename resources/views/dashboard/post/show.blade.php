@@ -1,17 +1,25 @@
-@extends('admin.layouts.app')
+@extends('dashboard.layouts.app')
 
-@section('title', 'Detail Blog')
+@section('title', 'Post Detail')
 @section('content')
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('dashboard.post.index') }}">Posts List</a></li>
+    <li class="breadcrumb-item" aria-current="page">Post Detail</li>
+  </ol>
+</nav>
+
 <div class="row page-titles mx-0" style="background: #343957;">
-    <div class="col-sm-6 mt-1 p-md-0">
+    <div class="col-sm-6 my-auto p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Detail Blog</h4>
+            <h4 class="text-white">Post Detail</h4>
         </div>
     </div>
-    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('admin.blog.index') }}">
+    <div class="col-sm-6 my-auto p-md-0 justify-content-sm-end d-flex">
+        <a href="{{ route('dashboard.post.index') }}">
             <button type="button" class="btn btn-light">
-                <i class="fas fa-arrow-circle-left mr-1"></i> Kembali
+                <i class="fas fa-arrow-circle-left mr-1"></i> Back
             </button>
         </a>
     </div>
@@ -20,10 +28,12 @@
 
 <div class="row">
     <div class="col-12">
+        <!-- Post Section -->
         <div class="card">
             <div class="card-body">
                 <div class="basic-form">
                     <form>
+                        <!-- {{--
                         <div class="form-group row">
                             <b class="col-sm-2 col-form-label">Gambar</b>
                             <div class="col-sm-10">
@@ -31,48 +41,60 @@
                                     src="{{ is_null($blog->image) ? asset('assets/images/blank.png') : asset($blog->image) }}">
                             </div>
                         </div>
+                        --}} -->
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Judul Blog</label>
+                            <label class="col-sm-3 col-form-label">Post Author</label>
                             <div class="col-sm-9">
-                                <input type="text" readonly class="form-control-plaintext" value="{{ $blog->name }}">
+                                <input type="text" readonly class="form-control-plaintext" value="{{ $post->user->name }}">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Kategori Blog</label>
+                            <label class="col-sm-3 col-form-label">Post Title</label>
                             <div class="col-sm-9">
-                                <input type="text" readonly class="form-control-plaintext"
-                                    value="{{ $blog->category->name }}">
+                                <input type="text" readonly class="form-control-plaintext" value="{{ $post->title }}">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Form Url Blog</label>
-                            <div class="col-sm-9 pt-1 text-dark">
-                                {{ $blog->form_url }}
+                        <div class="form-group">
+                            <label class="col-form-label">Post Content</label>
+                            <div class="pt-1 text-dark">
+                                {!! $post->content !!}
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Status Form Blog</label>
+                        <div class="form-group row align-middle">
+                            <label class="col-sm-3 col-form-label">Post Status</label>
                             <div class="col-sm-9">
-                                <input type="text" readonly class="form-control-plaintext" 
-                                value="{{ ($blog->active) ? 'Dibuka' : 'Ditutup' }}">
+                                @if($post->status == 'published')
+                                    <span class="badge badge-success">Published</span>
+                                @elseif($post->status == 'draft')
+                                    <span class="badge badge-warning text-white">Draft</span>
+                                @else
+                                    <span class="badge badge-secondary">Archived</span>
+                                @endif
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Deskripsi Blog</label>
-                            <div class="col-sm-9 pt-1 text-dark">
-                                {!! $blog->description !!}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Tanggal</label>
+                            <label class="col-sm-3 col-form-label">Published Date</label>
                             <div class="col-sm-9">
-                                <input type="text" readonly class="form-control-plaintext" 
-                                value="{{ \Carbon\Carbon::parse($blog->created_at)->isoFormat('ddd, DD MMM YYYY') }}">
+                                @if($post->status == 'published')
+                                    <input type="text" readonly class="form-control-plaintext" 
+                                    value="{{ \Carbon\Carbon::parse($post->published_date)->isoFormat('ddd, DD MMM YYYY') }}">
+                                @else
+                                    <input type="text" readonly class="form-control-plaintext" 
+                                        value="Not published"> 
+                                @endif 
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
+        </div>
+        <!-- Comment Section -->
+        <div class="card">
+            Comment
+        </div>
+        <!-- Likes Section -->
+        <div class="card">
+            Likes and Dislikes
         </div>
     </div>
 </div>

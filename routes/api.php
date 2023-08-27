@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Blog
-// Route::prefix('blog')->group(function () {
+// Post
+// Route::prefix('post')->group(function () {
 //     Route::get('/', [BlogController::class, 'index'])->name('index');
 //     Route::get('/latest', [BlogController::class, 'latest'])->name('latest');
 //     Route::get('/search', [BlogController::class, 'search'])->name('search');
