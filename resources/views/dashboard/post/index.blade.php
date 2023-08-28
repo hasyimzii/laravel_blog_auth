@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.app')
+@extends('dashboard.layouts.body')
 
 @section('title', 'Posts List')
 @section('content')
@@ -110,3 +110,12 @@
     </div>
 </div>
 @endsection
+
+@push('style')
+<link href="{{ asset('assets/dashboard/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+@endpush
+
+@push('script')
+<script src="{{ asset('assets/dashboard/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/dashboard/js/plugins-init/datatables.init.js') }}"></script>
+@endpush

@@ -17,11 +17,11 @@
         <div class="form-group">
             <label><strong>Password</strong></label>
             <input type="password" class="form-control" name="password" required>
-        </div><br>
+        </div>
         <div class="form-group">
             <label><strong>Confirm Password</strong></label>
             <input type="password" class="form-control" name="password_confirmation" required>
-        </div><br>
+        </div>
         <div class="text-center">
             <button type="submit" class="btn btn-primary btn-block">Register</button>
         </div>

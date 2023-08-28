@@ -26,7 +26,10 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 
 // Home
-Route::get('/', [HomeController::class, 'index'])->name('home');
+// Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', function () {
+    return to_route('dashboard.post.index');
+})->name('home');
 
 // Dashboard
 Route::middleware(CustomAuth::class)->prefix('dashboard')->name('dashboard.')->group(function () {

@@ -13,7 +13,13 @@
         <div class="form-group">
             <label><strong>Password</strong></label>
             <input type="password" class="form-control" name="password" required>
-        </div><br>
+        </div>
+        <div class="form-check mb-3 d-flex align-items-center">
+            <input class="form-check-input" type="checkbox" id="form-check-remember" name="remember">
+            <label class="form-check-label" for="form-check-remember">
+                Remember me
+            </label>
+        </div>
         <div class="text-center">
             <button type="submit" class="btn btn-primary btn-block">Login</button>
         </div>

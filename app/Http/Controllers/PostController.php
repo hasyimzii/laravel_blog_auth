@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PostController extends Controller
@@ -20,11 +19,24 @@ class PostController extends Controller
         return view('dashboard.post.index', compact('post'));
     }
 
-    public function show($id)
+    private function checkId($id)
     {
         $post = Post::find($id);
+        if (is_null($post)) {
+            Alert::toast('Post not found!', 'error');
+            return false;
+        }
+        return $post;
+    }
+
+    public function show($id)
+    {
+        $post = $this->checkId($id);
+        if ($post == false) return back();
+
         $post_comment = $post->post_comment()->get();
         $post_like = $post->post_like()->get();
+        
         return view('dashboard.post.show', compact('post', 'post_comment', 'post_like'));
     }
 
@@ -33,21 +45,10 @@ class PostController extends Controller
         return view('dashboard.post.create');
     }
 
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => ['required', 'string'],
-            'content' => ['required', 'string'],
-            'status' => ['required', 'string'],
-        ]);
-
-        if ($validator->fails()) {
-            foreach ($validator->errors()->all() as $message) {
-                Alert::toast($message, 'error');
-            }
-            return back();
-        }
-
+        $validator = $request->validated();
+        if ($validator == false) return back();
 
         Post::create([
             'user_id' => auth()->user()->id,
@@ -63,26 +64,20 @@ class PostController extends Controller
     
     public function edit($id)
     {
-        $post = Post::find($id);
+        $post = $this->checkId($id);
+        if ($post == false) return back();
+
         return view('dashboard.post.edit', compact('post'));
     }
 
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => ['required', 'string'],
-            'content' => ['required', 'string'],
-            'status' => ['required', 'string'],
-        ]);
+        $post = $this->checkId($id);
+        if ($post == false) return back();
+        
+        $validator = $request->validated();
+        if ($validator == false) return back();
 
-        if ($validator->fails()) {
-            foreach ($validator->errors()->all() as $message) {
-                Alert::toast($message, 'error');
-            }
-            return back();
-        }
-
-        $post = Post::find($id);
         $post->update([
             'user_id' => auth()->user()->id,
             'title' => $request->title,
@@ -99,12 +94,10 @@ class PostController extends Controller
 
     public function delete($id)
     {
-        $post = Post::find($id);
+        $post = $this->checkId($id);
 
-        if (is_null($post)) {
-            Alert::toast('Post not found!', 'error');
-            return back();
-        }
+        if ($post == false) return back();
+
         $post->delete();
 
         Alert::toast('Delete post success!', 'success');

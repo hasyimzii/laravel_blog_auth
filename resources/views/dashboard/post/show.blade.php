@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.app')
+@extends('dashboard.layouts.body')
 
 @section('title', 'Post Detail')
 @section('content')

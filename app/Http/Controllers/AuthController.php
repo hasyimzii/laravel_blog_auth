@@ -17,6 +17,8 @@ class AuthController extends Controller
     
     public function login(Request $request)
     {
+        $remember = ($request->remember) ? true : false;
+
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
@@ -29,7 +31,7 @@ class AuthController extends Controller
             return back();
         }
  
-        if (Auth::attempt($validator->validated())) {
+        if (Auth::attempt($validator->validated(), $remember)) {
             $request->session()->regenerate();
             Alert::toast('Welcome to dashboard, '. auth()->user()->name .'!', 'success');
             return to_route('dashboard.post.index');
