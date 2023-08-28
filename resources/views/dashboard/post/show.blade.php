@@ -6,7 +6,7 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="{{ route('dashboard.post.index') }}">Posts List</a></li>
-    <li class="breadcrumb-item" aria-current="page">Post Detail</li>
+    <li class="breadcrumb-item active" aria-current="page">Post Detail</li>
   </ol>
 </nav>
 
@@ -90,11 +90,60 @@
         </div>
         <!-- Comment Section -->
         <div class="card">
-            Comment
-        </div>
-        <!-- Likes Section -->
-        <div class="card">
-            Likes and Dislikes
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-comment-tab" data-toggle="tab" 
+                    data-target="#nav-comment" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                        Comments ({{ $post_comment->count() }})
+                    </button>
+                    <button class="nav-link" id="nav-like-tab" data-toggle="tab" 
+                    data-target="#nav-like" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                        Likes and Dislikes ({{ $post_like->count() }})
+                    </button>
+                </div>
+            </nav>
+            <div class="card-body pb-0">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-comment" role="tabpanel" aria-labelledby="nav-comment-tab">
+                        @forelse($post_comment as $item)
+                            <div class="card py-2 px-4">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-primary fw-normal lh-1">{{ $item->user->name }}</span>
+                                        <p class="text-secondary fw-light fst-italic lh-1">
+                                            {{ \Carbon\Carbon::parse($item->created_at)->isoFormat('ddd, DD MMM YYYY') }}
+                                        </p>
+                                        <p class="mb-0 fw-semiold lh-1">{{ $item->comment }}</p>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-thumbs-up ml-2"></i> {{ $item->comment_like()->where('is_like', true)->count() }}
+                                        <i class="fas fa-thumbs-down ml-2"></i> {{ $item->comment_like()->where('is_like', false)->count() }}
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                        @endforelse
+                    </div>
+                    <div class="tab-pane fade" id="nav-like" role="tabpanel" aria-labelledby="nav-like-tab">
+                        @forelse($post_like as $item)
+                            <div class="card py-2 px-4">
+                                <span class="text-primary fw-normal lh-1">{{ $item->user->name }}</span>
+                                <p class="text-secondary fw-light fst-italic lh-1">
+                                    {{ \Carbon\Carbon::parse($item->updated_at)->isoFormat('ddd, DD MMM YYYY') }}
+                                </p>
+                                <p class="mb-0 fw-semiold lh-1">
+                                    @if($item->is_like)
+                                        Liked this post <i class="fas fa-thumbs-up ml-1"></i>
+                                    @else
+                                        Disiked this post <i class="fas fa-thumbs-down ml-1"></i>
+                                    @endif
+                                </p>
+                            </div>
+                        @empty
+                        @endforelse
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

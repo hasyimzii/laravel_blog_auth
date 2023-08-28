@@ -3,10 +3,10 @@
 @section('title', 'Posts List')
 @section('content')
 <nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
-    <li class="breadcrumb-item" aria-current="page">Posts List</li>
-  </ol>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Posts List</li>
+    </ol>
 </nav>
 
 <div class="row page-titles mx-0" style="background: #343957;">
@@ -74,11 +74,11 @@
                                             class="btn btn-warning">
                                                 <i class="fa fa-pencil text-white"></i>
                                         </a>
-                                        <button class="btn btn-danger" data-toggle="modal" data-target="#confirmation">
+                                        <button class="btn btn-danger" data-toggle="modal" data-target="#confirmation{{ $item->id }}">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                         <!-- Confirmation Modal -->
-                                        <div class="modal fade" id="confirmation" tabindex="-1" role="dialog" aria-labelledby="confirmation" aria-hidden="true">
+                                        <div class="modal fade" id="confirmation{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="confirmation" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-body">

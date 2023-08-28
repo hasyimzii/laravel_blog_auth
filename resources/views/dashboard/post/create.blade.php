@@ -6,7 +6,7 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="{{ route('dashboard.post.index') }}">Posts List</a></li>
-    <li class="breadcrumb-item" aria-current="page">Create Post</li>
+    <li class="breadcrumb-item active" aria-current="page">Create Post</li>
   </ol>
 </nav>
 
@@ -53,7 +53,7 @@
                         </div>
                         <div class="form-group">
                             <label>Post Status (Choose one):</label>
-                            <select class="form-control" id="sel1" name="status">
+                            <select class="form-select" id="sel1" name="status">
                                 <!-- {{--
                                 @forelse($category as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>

@@ -23,7 +23,9 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
-        return view('dashboard.post.show', compact('post'));
+        $post_comment = $post->post_comment()->get();
+        $post_like = $post->post_like()->get();
+        return view('dashboard.post.show', compact('post', 'post_comment', 'post_like'));
     }
 
     public function create()
