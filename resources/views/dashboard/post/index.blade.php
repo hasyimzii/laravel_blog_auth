@@ -82,10 +82,10 @@
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-body">
-                                                        <h1 class="text-center mt-3 mb-3"><i class="fa fa-circle-question fa-xl"></i></h1>
-                                                        <h2 class="text-center">Delete Item!</h2>
+                                                        <h1 class="text-center text-dark mt-3 mb-3"><i class="fa fa-circle-question fa-xl"></i></h1>
+                                                        <h2 class="text-center text-dark">Delete Item?</h2>
                                                         <p class="text-center text-secondary">Are you sure you want to delete?</p>
-                                                        <div class="flex row justify-content-center mb-3">
+                                                        <div class="d-flex d-row justify-content-center mb-3">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                                             <form class="d-inline ml-3" 
                                                                 action="{{ route('dashboard.post.delete', $item->id) }}" 

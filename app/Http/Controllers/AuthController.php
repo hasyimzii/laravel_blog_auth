@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthLoginRequest;
+use App\Http\Requests\AuthRegisterRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthController extends Controller
@@ -15,23 +15,14 @@ class AuthController extends Controller
         return view('auth.login');
     }
     
-    public function login(Request $request)
+    public function login(AuthLoginRequest $request)
     {
+        $validated = $request->validated();
+        if ($validated == false) return back();
+
         $remember = ($request->remember) ? true : false;
-
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email'],
-            'password' => ['required', 'string'],
-        ]);
-
-        if ($validator->fails()) {
-            foreach ($validator->errors()->all() as $message) {
-                Alert::toast($message, 'error');
-            }
-            return back();
-        }
  
-        if (Auth::attempt($validator->validated(), $remember)) {
+        if (Auth::attempt($validated, $remember)) {
             $request->session()->regenerate();
             Alert::toast('Welcome to dashboard, '. auth()->user()->name .'!', 'success');
             return to_route('dashboard.post.index');
@@ -46,20 +37,10 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function register(AuthRegisterRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
-        if ($validator->fails()) {
-            foreach ($validator->errors()->all() as $message) {
-                Alert::toast($message, 'error');
-            }
-            return back();
-        }
+        $validated = $request->validated();
+        if ($validated == false) return back();
 
         $user = User::create([
             'name' => $request->name,
@@ -78,6 +59,6 @@ class AuthController extends Controller
             Auth::logout();
             return to_route('home');
         }
-        return redirect()->back();
+        return back();
     }
 }

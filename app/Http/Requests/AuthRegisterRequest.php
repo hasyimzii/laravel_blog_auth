@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class AuthLoginRequest extends FormRequest
+class AuthRegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class AuthLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email'],
-            'password' => ['required', 'string'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
     

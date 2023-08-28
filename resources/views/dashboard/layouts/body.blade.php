@@ -82,8 +82,8 @@
         Footer start
     ***********************************-->
     <div class="footer">
-        <div class="copyright">
-            &copy; All rights reserved. Made by </span><a class="nav-link-dark fw-bold" href="https://github.com/hasyimzii" target="_blank" rel="noopener">HASYIM</a></p>
+        <div class="copyright fw-normal">
+            &copy; All rights reserved. Made by </span><a class="nav-link-dark" href="https://github.com/hasyimzii" target="_blank" rel="noopener">HASYIM</a></p>
         </div>
     </div>
     <!--**********************************

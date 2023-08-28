@@ -113,11 +113,11 @@
                                         <p class="text-secondary fw-light fst-italic lh-1">
                                             {{ \Carbon\Carbon::parse($item->created_at)->isoFormat('ddd, DD MMM YYYY') }}
                                         </p>
-                                        <p class="mb-0 fw-semiold lh-1">{{ $item->comment }}</p>
+                                        <p class="mb-1 fw-semiold lh-1">{{ $item->comment }}</p>
                                     </div>
                                     <div>
-                                        <i class="fas fa-thumbs-up ml-2"></i> {{ $item->comment_like()->where('is_like', true)->count() }}
-                                        <i class="fas fa-thumbs-down ml-2"></i> {{ $item->comment_like()->where('is_like', false)->count() }}
+                                        <i class="fas fa-thumbs-up ms-2"></i> {{ $item->comment_like()->where('is_like', true)->count() }}
+                                        <i class="fas fa-thumbs-down ms-2"></i> {{ $item->comment_like()->where('is_like', false)->count() }}
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +131,7 @@
                                 <p class="text-secondary fw-light fst-italic lh-1">
                                     {{ \Carbon\Carbon::parse($item->updated_at)->isoFormat('ddd, DD MMM YYYY') }}
                                 </p>
-                                <p class="mb-0 fw-semiold lh-1">
+                                <p class="mb-1 fw-semiold lh-1">
                                     @if($item->is_like)
                                         Liked this post <i class="fas fa-thumbs-up ml-1"></i>
                                     @else
