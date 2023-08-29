@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Post
-// Route::prefix('post')->group(function () {
-//     Route::get('/', [BlogController::class, 'index'])->name('index');
-//     Route::get('/latest', [BlogController::class, 'latest'])->name('latest');
-//     Route::get('/search', [BlogController::class, 'search'])->name('search');
-// });
+// Auth
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/login', 'login');
+    Route::post('/register', 'register');
+    Route::post('/logout', 'logout');
+});

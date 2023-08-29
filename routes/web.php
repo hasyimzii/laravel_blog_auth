@@ -18,16 +18,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Auth
-Route::get('/login', [AuthController::class, 'showLogin'])->name('auth.showLogin');
-Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
-Route::get('/register', [AuthController::class, 'showRegister'])->name('auth.showRegister');
-Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
-Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/login', 'showLogin')->name('auth.showLogin');
+    Route::post('/login', 'login')->name('auth.login');
+    Route::get('/register', 'showRegister')->name('auth.showRegister');
+    Route::post('/register', 'register')->name('auth.register');
+    Route::get('/logout', 'logout')->name('auth.logout');
+});
 
 // Home
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('{id}/post', [HomeController::class, 'post'])->name('post');
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index')->name('home');
+    Route::get('/{id}/post', 'post')->name('post');
+});
 
 // Dashboard
 Route::middleware(CustomAuth::class)->prefix('dashboard')->name('dashboard.')->group(function () {
@@ -37,13 +40,13 @@ Route::middleware(CustomAuth::class)->prefix('dashboard')->name('dashboard.')->g
     })->name('index');
 
     // Post
-    Route::prefix('post')->name('post.')->group(function () {
-        Route::get('/', [PostController::class, 'index'])->name('index');
-        Route::get('{id}/show', [PostController::class, 'show'])->name('show');
-        Route::get('/create', [PostController::class, 'create'])->name('create');
-        Route::post('/create', [PostController::class, 'store'])->name('store');
-        Route::get('{id}/edit', [PostController::class, 'edit'])->name('edit');
-        Route::post('{id}/edit', [PostController::class, 'update'])->name('update');
-        Route::post('{id}/delete', [PostController::class, 'delete'])->name('delete');
+    Route::controller(PostController::class)->prefix('post')->name('post.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}/show', 'show')->name('show');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/create', 'store')->name('store');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::post('/{id}/edit', 'update')->name('update');
+        Route::post('/{id}/delete', 'delete')->name('delete');
     });
 });

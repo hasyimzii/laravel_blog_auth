@@ -27,7 +27,7 @@ class AuthController extends Controller
             Alert::toast('Welcome to dashboard, '. auth()->user()->name .'!', 'success');
             return to_route('dashboard.post.index');
         } else {
-            Alert::toast('wrong email or password!', 'error');
+            Alert::toast('Wrong email or password!', 'error');
             return back();
         }
     }
