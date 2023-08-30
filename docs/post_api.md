@@ -1,4 +1,4 @@
-# Post API Spec
+# Post API Docs
 
 ## Get Posts
 Endpoint: GET /api/post
@@ -33,7 +33,7 @@ Response Error (404) :
 ```json
 {
     "messages": [
-        "Data not found!"
+        "data not found!"
     ]
 }
 ```
@@ -62,7 +62,7 @@ Response Error (404) :
 ```json
 {
     "messages": [
-        "Data not found!"
+        "data not found!"
     ]
 }
 ```
@@ -101,9 +101,9 @@ Response Success (200) :
 Response Error (400) :
 ```json
 {
-    "message": [
-        "Title required!",
-        "Content required!"
+    "messages": [
+        "title required!",
+        "content required!"
     ]
 }
 ```
@@ -141,9 +141,9 @@ Response Success (200) :
 Response Error (400) :
 ```json
 {
-    "message": [
-        "Title required!",
-        "Content required!"
+    "messages": [
+        "title required!",
+        "content required!"
     ]
 }
 ```
@@ -158,7 +158,7 @@ Response Success (200) :
 ```json
 {
     "messages": [
-        "Delere post success!"
+        "delete post success!"
     ]
 }
 ```
@@ -167,7 +167,7 @@ Response Error (404) :
 ```json
 {
     "messages": [
-        "Data not found!"
+        "data not found!"
     ]
 }
 ```

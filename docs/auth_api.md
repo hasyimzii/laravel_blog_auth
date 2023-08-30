@@ -1,4 +1,4 @@
-# Auth API Spec
+# Auth API Docs
 
 ## Register
 Endpoint: POST /api/register
@@ -26,8 +26,8 @@ Response Error (400) :
 ```json
 {
     "messages": [
-        "Email already existed!",
-        "Name required!"
+        "email already existed!",
+        "name required!"
     ]
 }
 ```
@@ -60,10 +60,38 @@ Response Error (401) :
 ```json
 {
     "messages": [
-        "Wrong email or password!"
+        "wrong email or password!"
     ]
 }
 ```
+
+## Get User
+Endpoint: GET /api/user
+
+Headers :
+- Authorization: "Bearer user-token"
+
+Response Success (200) :
+```json
+{
+    "data": {
+        "name": "user",
+        "authorization": {
+            "token": "user-token",
+            "type": "bearer"
+        }
+    }
+}
+```
+
+Response Error (401) :
+```json
+{
+    "messages": [
+        "you are unauthorized!"
+    ]
+}
+
 
 ## Logout
 Endpoint: POST /api/logout
@@ -75,7 +103,7 @@ Response Success (200) :
 ```json
 {
     "messages": [
-        "Logout success!"
+        "logout success!"
     ]
 }
 ```
@@ -83,8 +111,8 @@ Response Success (200) :
 Response Error (401) :
 ```json
 {
-    "message": [
-        "You are unauthorized!"
+    "messages": [
+        "you are unauthorized!"
     ]
 }
 ```
