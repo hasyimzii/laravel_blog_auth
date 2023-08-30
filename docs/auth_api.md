@@ -91,7 +91,7 @@ Response Error (401) :
         "you are unauthorized!"
     ]
 }
-
+```
 
 ## Logout
 Endpoint: POST /api/logout

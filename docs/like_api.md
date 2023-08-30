@@ -78,7 +78,7 @@ Response Error (400) :
 }
 ```
 
-## Get Comment Likes
+## Get Comment Likes and Dislikes
 Endpoint: GET /api/post_comment/{post_comment_id}/like
 
 Headers :
