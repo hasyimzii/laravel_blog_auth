@@ -24,8 +24,9 @@ class AuthController extends Controller
  
         if (Auth::attempt($validated, $remember)) {
             $request->session()->regenerate();
-            Alert::toast('Welcome to dashboard, '. auth()->user()->name .'!', 'success');
-            return to_route('dashboard.post.index');
+
+            Alert::toast('Welcome to dashboard, '. Auth::user()->name .'!', 'success');
+            return to_route('dashboard.index');
         } else {
             Alert::toast('Wrong email or password!', 'error');
             return back();

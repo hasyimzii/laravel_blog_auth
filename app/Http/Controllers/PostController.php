@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
+        $user = Auth::user();
         if ($user->hasRole('admin')) {
             $post = Post::orderBy('id', 'desc')->get();
         } else {

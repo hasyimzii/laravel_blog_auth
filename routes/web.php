@@ -3,7 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
-use App\Http\Middleware\CustomAuth;
+use App\Http\Middleware\WebMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,11 +29,11 @@ Route::controller(AuthController::class)->group(function () {
 // Home
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('home');
-    Route::get('/{id}/post', 'post')->name('post');
+    Route::get('/{id}/post_detail', 'post')->name('postDetail');
 });
 
 // Dashboard
-Route::middleware(CustomAuth::class)->prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware(WebMiddleware::class)->prefix('dashboard')->name('dashboard.')->group(function () {
     // Index redirect
     Route::get('/', function () {
         return to_route('dashboard.post.index');

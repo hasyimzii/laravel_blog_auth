@@ -17,7 +17,8 @@ Response Success (200) :
 {
     "data": {
         "name": "user",
-        "email": "user@mail.com"
+        "email": "user@mail.com",
+        "role": "user"
     }
 }
 ```
@@ -26,7 +27,7 @@ Response Error (400) :
 ```json
 {
     "messages": [
-        "email already existed!",
+        "email already registered!",
         "name required!"
     ]
 }
@@ -48,6 +49,7 @@ Response Success (201) :
 {
     "data": {
         "name": "user",
+        "role": "user",
         "authorization": {
             "token": "user-token",
             "type": "bearer"
@@ -76,6 +78,8 @@ Response Success (200) :
 {
     "data": {
         "name": "user",
+        "email": "user@mail.com",
+        "role": "user",
         "authorization": {
             "token": "user-token",
             "type": "bearer"

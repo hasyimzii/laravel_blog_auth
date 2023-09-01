@@ -2,12 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CustomAuth
+class ApiMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,10 +17,17 @@ class CustomAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) {
-            return to_route('auth.showLogin');
-        } else {
+        $token = $request->header('Authorization');
+
+        if ($user = User::validateToken($token)) {
+            Auth::login($user);
             return $next($request);
+        } else {
+            return response()->json([
+                'messages' => [
+                    'you are unauthorized!',
+                ]
+            ], 401);
         }
     }
 }

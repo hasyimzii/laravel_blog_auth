@@ -46,7 +46,7 @@
                         </div>
                         <p class="card-text">{!! Str::limit($item->content, $limit = 50, $end = '...') !!}</p>
                         <div class="d-grid gap-2">
-                            <a href="{{ route('post', $item->id) }}" class="btn btn-primary">Read more</a>
+                            <a href="{{ route('postDetail', $item->id) }}" class="btn btn-primary">Read more</a>
                         </div>
                     </div>
                 </div>

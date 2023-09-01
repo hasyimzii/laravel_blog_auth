@@ -83,7 +83,7 @@
     ***********************************-->
     <div class="footer">
         <div class="copyright fw-normal">
-            &copy; All rights reserved. Made by </span><a class="nav-link-dark" href="https://github.com/hasyimzii" target="_blank" rel="noopener">HASYIM</a></p>
+            Copyright &copy; {{ date('Y') }}. All rights reserved </span><a class="nav-link-dark" href="https://github.com/hasyimzii" target="_blank" rel="noopener">Hasyim</a></p>
         </div>
     </div>
     <!--**********************************

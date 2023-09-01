@@ -77,7 +77,7 @@
                                         <button class="btn btn-danger" data-toggle="modal" data-target="#confirmation{{ $item->id }}">
                                             <i class="fa fa-trash"></i>
                                         </button>
-                                        <!-- Confirmation Modal -->
+                                        <!-- Delete Confirmation Modal -->
                                         <div class="modal fade" id="confirmation{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="confirmation" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">

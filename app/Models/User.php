@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'token',
     ];
 
     /**
@@ -31,7 +31,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'token',
     ];
 
     /**
@@ -40,9 +40,45 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function hasRole($role)
+    {
+        if ($this->role()->where('name', $role)->first()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function generateToken()
+    {
+        $token = Str::uuid()->toString();
+        $this->update([
+            'token' => $token,
+        ]);
+        return $token;
+    }
+
+    public static function validateToken($bearer_token)
+    {   
+        if (is_null($bearer_token)) return false;
+
+        $token = explode(' ', $bearer_token);
+
+        if ($token[0] != 'Bearer') return false;
+
+        if (count($token) != 2) return false;
+
+        if (!$user = User::where('token', $token[1])->first()) return false;
+
+        return $user;
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 
     public function post()
     {
