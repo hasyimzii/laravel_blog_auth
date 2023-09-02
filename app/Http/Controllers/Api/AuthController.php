@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AuthLoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,16 +10,19 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function login(AuthLoginRequest $request)
+    public function login(Request $request)
     {
-        $validated = $request->validated();
-        if ($validated == false) return back();
+        $validated = ApiRequest::validator($request->all(), [
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
+        ]);
+        if (!$validated['status']) return $validated['response'];
 
         $user = User::where('email', $request->email)->first();
         $passCheck = Hash::check($request->password, $user->password);
 
         if ($user && $passCheck) {
-            $token = $user->generateToken();
+            $token = $request->user()->createToken('Api '. $user->name)->plainTextToken;
 
             return response()->json([
                 'data' => [

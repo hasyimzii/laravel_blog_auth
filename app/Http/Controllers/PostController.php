@@ -6,7 +6,6 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
-use WebRequest;
 
 class PostController extends Controller
 {
