@@ -109,7 +109,7 @@ Response Error (400) :
 ```
 
 ## Update Post
-Endpoint: PUT /api/post/{post_id}
+Endpoint: PATCH /api/post/{post_id}
 
 Headers :
 - Authorization: "Bearer user-token"
@@ -118,6 +118,7 @@ Request Body :
 ```json
 {
     "data": {
+        // optional (must send at least one)
         "title": "post title",
         "content": "post content",
         "status": "draft"

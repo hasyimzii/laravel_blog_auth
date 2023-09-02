@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AuthLoginRequest;
-use App\Http\Requests\AuthRegisterRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use WebRequest;
 
 class AuthController extends Controller
 {
@@ -15,10 +17,13 @@ class AuthController extends Controller
         return view('auth.login');
     }
     
-    public function login(AuthLoginRequest $request)
+    public function login(Request $request)
     {
-        $validated = $request->validated();
-        if ($validated == false) return back();
+        $validated = WebRequest::validator($request->all(), [
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
+        ]);
+        if (!$validated) return back();
 
         $remember = ($request->remember) ? true : false;
  
@@ -38,17 +43,21 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function register(AuthRegisterRequest $request)
+    public function register(Request $request)
     {
-        $validated = $request->validated();
-        if ($validated == false) return back();
+        $validated = WebRequest::validator($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+        if (!$validated) return back();
 
         $user = User::create([
+            'role_id' => 2,
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'password' => Hash::make($request->password),
         ]);
-        $user->assignRole('user');
  
         Alert::toast('Register account success!', 'success');
         return to_route('auth.showLogin');

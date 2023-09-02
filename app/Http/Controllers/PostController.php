@@ -2,13 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+use WebRequest;
 
 class PostController extends Controller
 {
+    private function checkId($id)
+    {
+        $post = Post::find($id);
+        if (is_null($post)) {
+            Alert::toast('Post not found!', 'error');
+            return false;
+        }
+        return $post;
+    }
+
     public function index()
     {
         $user = Auth::user();
@@ -20,20 +31,10 @@ class PostController extends Controller
         return view('dashboard.post.index', compact('post'));
     }
 
-    private function checkId($id)
-    {
-        $post = Post::find($id);
-        if (is_null($post)) {
-            Alert::toast('Post not found!', 'error');
-            return false;
-        }
-        return $post;
-    }
-
     public function show($id)
     {
         $post = $this->checkId($id);
-        if ($post == false) return back();
+        if (!$post) return back();
 
         $post_comment = $post->post_comment()->orderBy('id', 'desc')->get();
         $post_like = $post->post_like()->orderBy('id', 'desc')->get();
@@ -46,13 +47,17 @@ class PostController extends Controller
         return view('dashboard.post.create');
     }
 
-    public function store(PostRequest $request)
+    public function store(Request $request)
     {
-        $validated = $request->validated();
-        if ($validated == false) return back();
+        $validated = WebRequest::validator($request->all(), [
+            'title' => ['required', 'string'],
+            'content' => ['required', 'string'],
+            'status' => ['required', 'string'],
+        ]);
+        if (!$validated) return back();
 
         Post::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => Auth::user()->id,
             'title' => $request->title,
             'content' => $request->content,
             'status' => $request->status,
@@ -66,24 +71,27 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = $this->checkId($id);
-        if ($post == false) return back();
+        if (!$post) return back();
 
         return view('dashboard.post.edit', compact('post'));
     }
 
-    public function update(PostRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $post = $this->checkId($id);
-        if ($post == false) return back();
+        if (!$post) return back();
         
-        $validated = $request->validated();
-        if ($validated == false) return back();
+        $validated = WebRequest::validator($request->all(), [
+            'title' => ['required', 'string'],
+            'content' => ['required', 'string'],
+            'status' => ['required', 'string'],
+        ]);
+        if (!$validated) return back();
 
         $post->update([
-            'user_id' => auth()->user()->id,
-            'title' => $request->title,
-            'content' => $request->content,
-            'status' => $request->status,
+            'title' => ($request->title) ?: $post->title,
+            'content' => ($request->content) ?: $post->content,
+            'status' => ($request->status) ?: $post->status,
             'published_date' => ($post->status != 'published' && $request->status == 'published')
                                 ? date('Y-m-d H:i:s')
                                 : $post->published_date,
@@ -96,8 +104,7 @@ class PostController extends Controller
     public function delete($id)
     {
         $post = $this->checkId($id);
-
-        if ($post == false) return back();
+        if (!$post) return back();
 
         $post->delete();
 
