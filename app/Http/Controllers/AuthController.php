@@ -11,32 +11,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthController extends Controller
 {
-    public function showLogin()
-    {
-        return view('auth.login');
-    }
-    
-    public function login(Request $request)
-    {
-        $validated = WebRequest::validator($request->all(), [
-            'email' => ['required', 'email'],
-            'password' => ['required', 'string'],
-        ]);
-        if (!$validated) return back();
-
-        $remember = ($request->remember) ? true : false;
- 
-        if (Auth::attempt($validated, $remember)) {
-            $request->session()->regenerate();
-
-            Alert::toast('Welcome to dashboard, '. Auth::user()->name .'!', 'success');
-            return to_route('dashboard.index');
-        } else {
-            Alert::toast('Wrong email or password!', 'error');
-            return back();
-        }
-    }
-
     public function showRegister()
     {
         return view('auth.register');
@@ -60,6 +34,32 @@ class AuthController extends Controller
  
         Alert::toast('Register account success!', 'success');
         return to_route('auth.showLogin');
+    }
+    
+    public function showLogin()
+    {
+        return view('auth.login');
+    }
+    
+    public function login(Request $request)
+    {
+        $validated = WebRequest::validator($request->all(), [
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
+        ]);
+        if (!$validated) return back();
+
+        $remember = ($request->remember) ? true : false;
+ 
+        if (Auth::attempt($request->only('email', 'password'), $remember)) {
+            $request->session()->regenerate();
+
+            Alert::toast('Welcome to dashboard, '. Auth::user()->name .'!', 'success');
+            return to_route('dashboard.index');
+        } else {
+            Alert::toast('Wrong email or password!', 'error');
+            return back();
+        }
     }
 
     public function logout()

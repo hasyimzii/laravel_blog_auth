@@ -51,30 +51,6 @@ class User extends Authenticatable
         return false;
     }
 
-    public function generateToken()
-    {
-        $token = Str::uuid()->toString();
-        $this->update([
-            'token' => $token,
-        ]);
-        return $token;
-    }
-
-    public static function validateToken($bearer_token)
-    {   
-        if (is_null($bearer_token)) return false;
-
-        $token = explode(' ', $bearer_token);
-
-        if ($token[0] != 'Bearer') return false;
-
-        if (count($token) != 2) return false;
-
-        if (!$user = User::where('token', $token[1])->first()) return false;
-
-        return $user;
-    }
-
     public function role()
     {
         return $this->belongsTo(Role::class);

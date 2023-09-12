@@ -27,8 +27,8 @@ Response Error (400) :
 ```json
 {
     "messages": [
-        "email already registered!",
-        "name required!"
+        "Email already registered!",
+        "Name required!"
     ]
 }
 ```
@@ -62,7 +62,7 @@ Response Error (401) :
 ```json
 {
     "messages": [
-        "wrong email or password!"
+        "Wrong email or password!"
     ]
 }
 ```
@@ -80,10 +80,6 @@ Response Success (200) :
         "name": "user",
         "email": "user@mail.com",
         "role": "user",
-        "authorization": {
-            "token": "user-token",
-            "type": "bearer"
-        }
     }
 }
 ```
@@ -92,7 +88,7 @@ Response Error (401) :
 ```json
 {
     "messages": [
-        "you are unauthorized!"
+        "You are unauthorized!"
     ]
 }
 ```
@@ -107,7 +103,7 @@ Response Success (200) :
 ```json
 {
     "messages": [
-        "logout success!"
+        "Logout success!"
     ]
 }
 ```
@@ -116,7 +112,7 @@ Response Error (401) :
 ```json
 {
     "messages": [
-        "you are unauthorized!"
+        "You are unauthorized!"
     ]
 }
 ```
