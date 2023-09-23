@@ -76,12 +76,10 @@ Headers :
 Request Body :
 ```json
 {
-    "data": {
-        "author_id": 1,
-        "title": "post title",
-        "content": "post content",
-        "status": "published"
-    }
+    "author_id": 1,
+    "title": "post title",
+    "content": "post content",
+    "status": "published"
 }
 ```
 
@@ -117,12 +115,10 @@ Headers :
 Request Body :
 ```json
 {
-    "data": {
-        // optional (must send at least one)
-        "title": "post title",
-        "content": "post content",
-        "status": "draft"
-    }
+    // optional (must send at least one)
+    "title": "post title",
+    "content": "post content",
+    "status": "draft"
 }
 ```
 
